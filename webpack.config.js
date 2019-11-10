@@ -2,7 +2,7 @@ const { resolve } = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ExtensionReloaderPlugin = require("webpack-extension-reloader");
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 const mode = process.env.NODE_ENV;
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
   devtool: "inline-source-map",
   entry: {
     "content-script": "./src/content/netflix.ts",
-    background: "./src/background/index.ts",
+    background: "./src/background/index.ts"
     //popup: "./src/popup/popup.ts"
   },
   output: {
@@ -45,11 +45,11 @@ module.exports = {
   ],
   module: {
     rules: [
-        {
-            test: /\.tsx?$/,
-            use: 'ts-loader',
-            exclude: /node_modules/,
-        },
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/
+      },
       {
         test: /\.css$/,
         use: [

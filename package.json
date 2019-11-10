@@ -1,22 +1,24 @@
 {
-  "scripts": {
-    "build-dev": "webpack --config webpack.config.js --mode=development",
-    "build": "webpack --config webpack.config.js --mode=production",
-    "dev": "webpack --config webpack.config.js --mode=development --watch"
-  },
-  "dependencies": {
-    "clean-webpack-plugin": "^3.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "path": "^0.12.7",
-    "ts-loader": "^6.2.1",
-    "typescript": "^3.6.4",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.9.0",
-    "webpack-extension-reloader": "^1.1.1"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^5.0.4",
-    "mini-css-extract-plugin": "^0.8.0"
-  }
+    "scripts": {
+        "build-dev": "webpack --config webpack.config.js --mode=development",
+        "build": "webpack --config webpack.config.js --mode=production",
+        "dev": "webpack --config webpack.config.js --mode=development --watch"
+    },
+    "dependencies": {
+        "clean-webpack-plugin": "^3.0.0",
+        "html-webpack-plugin": "^3.2.0",
+        "path": "^0.12.7",
+        "ts-loader": "^6.2.1",
+        "tslint-config-prettier": "^1.18.0",
+        "typescript": "^3.6.4",
+        "webextension-polyfill-ts": "^0.10.0",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.9",
+        "webpack-dev-server": "^3.9.0",
+        "webpack-extension-reloader": "^1.1.1"
+    },
+    "devDependencies": {
+        "copy-webpack-plugin": "^5.0.4",
+        "mini-css-extract-plugin": "^0.8.0"
+    }
 }

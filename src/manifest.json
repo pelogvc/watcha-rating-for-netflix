@@ -7,7 +7,7 @@
     "permissions": [
         "*://*.netflix.com/*",
         "*://*.watcha.com/*",
-        "tabs", 
+        "tabs",
         "storage"
     ],
     "background": {
