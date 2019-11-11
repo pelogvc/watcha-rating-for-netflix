@@ -4,7 +4,7 @@ class Netflix {
     private obInterval: number = 500;
     private ob: MutationObserver | undefined;
     private obEl: Element | null | undefined;
-    private obOptions = {
+    private obOptions: MutationObserverInit = {
         attributes: true,
         attributeFilter: ["class"],
         childList: true,
@@ -14,6 +14,7 @@ class Netflix {
     };
     private obTimer: any;
     private bgPort: Runtime.Port;
+    private searchLastData: string | null = "";
 
     constructor(options: MutationObserverInit = {}) {
         this.obOptions = {
@@ -27,6 +28,8 @@ class Netflix {
         });
 
         this.bgPort.onMessage.addListener(this.receiveMessage.bind(this));
+
+        this.applyObserver();
     }
 
     private receiveMessage(
@@ -55,28 +58,34 @@ class Netflix {
             const target = mutationRecord.target as Element;
 
             if (
-                target.classList.contains("jawBoneOpenContainer") || // jawBoneOpenContainer jqwBoneOpen-enter
-                target.classList.contains("jawBoneContainer")
-                //target.classList.contains("jawBoneFadeInPlace-enter-active") // jawBoneFadeInPlaceContainer jawBoneFadeInPlace-enter
+                !target.classList.contains("jawBoneOpenContainer") &&
+                !target.classList.contains("jawBoneContainer")
             ) {
-                const title =
-                    target.querySelector(".logo") &&
-                    target.querySelector(".logo")!.getAttribute("alt");
-                const year =
-                    target.querySelector(".year") &&
-                    target.querySelector(".year")!.textContent;
-                const duration =
-                    target.querySelector(".duration") &&
-                    target.querySelector(".duration")!.textContent;
-
-                if (!title || !year || !duration) return;
-                console.log(title, year, duration, this.isMovie(duration));
+                return;
             }
+            const id =
+                target.id ||
+                (target.querySelector(".jawBoneContainer") &&
+                    target.querySelector(".jawBoneContainer")!.id);
+            const title =
+                target.querySelector(".logo") &&
+                target.querySelector(".logo")!.getAttribute("alt");
+            const year =
+                target.querySelector(".year") &&
+                target.querySelector(".year")!.textContent;
+            const duration =
+                target.querySelector(".duration") &&
+                target.querySelector(".duration")!.textContent;
+
+            if (!title || !year || !duration) return;
+            if (this.searchLastData === id) return;
+
+            this.searchLastData = id;
+            console.log(id, title, year, duration, this.isMovie(duration));
         });
     }
 
     private proccessApplyObserver() {
-        //this.obEl = document.querySelector(this.obTarget as unknown as string)
         this.obEl = document.querySelector(".mainView");
 
         if (!this.obEl) return false;
@@ -95,5 +104,4 @@ class Netflix {
 
 (() => {
     const netflix = new Netflix();
-    netflix.applyObserver();
 })();
