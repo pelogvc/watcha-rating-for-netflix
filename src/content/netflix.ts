@@ -1,4 +1,4 @@
-import { browser, Runtime } from "webextension-polyfill-ts";
+import { browser, Runtime } from 'webextension-polyfill-ts';
 
 class Netflix {
     private obInterval: number = 500;
@@ -6,25 +6,25 @@ class Netflix {
     private obEl: Element | null | undefined;
     private obOptions: MutationObserverInit = {
         attributes: true,
-        attributeFilter: ["class"],
+        attributeFilter: ['class'],
         childList: true,
         characterData: false,
         subtree: true,
-        attributeOldValue: false
+        attributeOldValue: false,
     };
     private obTimer: any;
     private bgPort: Runtime.Port;
-    private searchLastData: string | undefined = "";
+    private searchLastData: string | undefined = '';
 
     constructor(options: MutationObserverInit = {}) {
         this.obOptions = {
             ...this.obOptions,
-            ...options
+            ...options,
         };
 
         // connect background
         this.bgPort = browser.runtime.connect(undefined, {
-            name: "netflix"
+            name: 'netflix',
         });
 
         this.bgPort.onMessage.addListener(this.receiveMessage.bind(this));
@@ -50,7 +50,7 @@ class Netflix {
     }
 
     private isMovie(duration: string): boolean {
-        return !!(duration.includes("시간") || duration.includes("분"));
+        return !!(duration.includes('시간') || duration.includes('분'));
     }
 
     private proccessObserverManager(mutationRecords: MutationRecord[]) {
@@ -58,15 +58,16 @@ class Netflix {
             const target = mutationRecord.target as Element;
 
             if (
-                !target.classList.contains("jawBoneOpenContainer") &&
-                !target.classList.contains("jawBoneContainer")
+                !target.classList.contains('jawBoneOpenContainer') &&
+                !target.classList.contains('jawBoneContainer')
             ) {
                 return;
             }
-            const id = target.id || target.querySelector(".jawBoneContainer")?.id;
-            const title = target.querySelector(".logo")?.getAttribute("alt");
-            const year = target.querySelector(".year")?.textContent;
-            const duration = target.querySelector(".duration")?.textContent;
+            const id =
+                target.id || target.querySelector('.jawBoneContainer')?.id;
+            const title = target.querySelector('.logo')?.getAttribute('alt');
+            const year = target.querySelector('.year')?.textContent;
+            const duration = target.querySelector('.duration')?.textContent;
 
             if (!title || !year || !duration) return;
             if (this.searchLastData === id) return;
@@ -77,7 +78,7 @@ class Netflix {
     }
 
     private proccessApplyObserver() {
-        this.obEl = document.querySelector(".mainView");
+        this.obEl = document.querySelector('.mainView');
 
         if (!this.obEl) return false;
 
