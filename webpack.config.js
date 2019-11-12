@@ -28,10 +28,6 @@ module.exports = {
             },
             { from: './src/popup/popup.html' },
             { from: './src/icons', to: 'assets' },
-            {
-                from: './node_modules/@fortawesome/fontawesome-free/webfonts',
-                to: './webfonts',
-            },
         ]),
     ],
     module: {
