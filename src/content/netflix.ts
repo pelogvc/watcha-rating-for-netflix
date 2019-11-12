@@ -32,13 +32,6 @@ class Netflix {
         this.applyObserver();
     }
 
-    private receiveMessage(
-        message: { id: string; data: Object },
-        port: Runtime.Port
-    ) {
-        console.log(message);
-    }
-
     public applyObserver() {
         if (this.obTimer) return clearTimeout(this.obTimer);
         if (!this.proccessApplyObserver()) {
@@ -47,6 +40,13 @@ class Netflix {
                 this.obInterval
             );
         }
+    }
+
+    private receiveMessage(
+        message: { id: string; data: object },
+        port: Runtime.Port
+    ) {
+        console.log(message);
     }
 
     private isMovie(duration: string): boolean {
