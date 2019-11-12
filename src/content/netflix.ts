@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 
-class Netflix {
+class Watcha {
     private obInterval: number = 500;
     private ob: MutationObserver | undefined;
     private obEl: Element | null | undefined;
@@ -24,12 +24,14 @@ class Netflix {
 
         // connect background
         this.bgPort = browser.runtime.connect(undefined, {
-            name: 'netflix',
+            name: 'watcha',
         });
 
         this.bgPort.onMessage.addListener(this.receiveMessage.bind(this));
 
         this.applyObserver();
+
+        console.log(`Loaded watcha-rating-for-netflix chrome extension`);
     }
 
     public applyObserver() {
@@ -42,10 +44,14 @@ class Netflix {
         }
     }
 
-    private receiveMessage(
-        message: { id: string; data: object },
-        port: Runtime.Port
-    ) {
+    private receiveMessage(message: {
+        id: string;
+        title: string;
+        year: number;
+        duration: string;
+        isMovie: boolean;
+        rating: number;
+    }) {
         console.log(message);
     }
 
@@ -56,10 +62,12 @@ class Netflix {
     private proccessObserverManager(mutationRecords: MutationRecord[]) {
         mutationRecords.forEach(async mutationRecord => {
             const target = mutationRecord.target as Element;
+            //console.log(target);
 
             if (
                 !target.classList.contains('jawBoneOpenContainer') &&
-                !target.classList.contains('jawBoneContainer')
+                !target.classList.contains('jawBoneContainer') &&
+                !target.classList.contains('jawBoneFadeInPlace-enter-active')
             ) {
                 return;
             }
@@ -73,7 +81,15 @@ class Netflix {
             if (this.searchLastData === id) return;
 
             this.searchLastData = id;
-            console.log(id, title, year, duration, this.isMovie(duration));
+            // console.log(id, title, year, duration, this.isMovie(duration));
+
+            this.bgPort.postMessage({
+                id,
+                title,
+                year,
+                duration,
+                isMovie: this.isMovie(duration),
+            });
         });
     }
 
@@ -86,12 +102,10 @@ class Netflix {
 
         this.ob.observe(this.obEl, this.obOptions);
 
-        console.log(`apply observer: ${this.obEl}`);
-
         return true;
     }
 }
 
 (() => {
-    const netflix = new Netflix();
+    const watcha = new Watcha();
 })();
