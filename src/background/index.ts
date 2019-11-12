@@ -1,5 +1,5 @@
-import { browser } from 'webextension-polyfill-ts';
 import axios from 'axios';
+import { browser } from 'webextension-polyfill-ts';
 
 const instance = axios.create({
     timeout: 1000,
@@ -18,7 +18,19 @@ const instance = axios.create({
 
         port.onMessage.addListener(async message => {
             const { id, title, year, duration, isMovie } = message;
+            // console.log(message);
+
             try {
+                const cKey = `watcha--${id}`;
+                const cResponse = await browser.storage.local.get(cKey);
+                const cValue = cResponse[cKey];
+                // console.log(cKey);
+                // console.log(cValue);
+
+                if (cValue) {
+                    return port.postMessage(JSON.parse(cValue));
+                }
+
                 const response = await instance.get(
                     `https://api.watcha.com/api/searches?query=${title}`
                 );
@@ -54,6 +66,10 @@ const instance = axios.create({
                     isMovie,
                     rating: filteredResult[0]?.ratings_avg,
                 };
+
+                await browser.storage.local.set({
+                    [cKey]: JSON.stringify(ret),
+                });
 
                 return port.postMessage(ret);
             } catch (e) {

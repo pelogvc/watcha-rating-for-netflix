@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: Ubuntu-B
+font link: https://fonts.google.com/specimen/Ubuntu
+font author: Dalton Maag
+font author site: http://www.daltonmaag.com/
+
+
+icon designer: Natalie Doud
+icon designer link: /nataliedoud
+        
+{"bg-gradient-0":"#E9007F","bg-gradient-1":"#FEA134","icon":"#ffffff","font":"#ffffff","slogan":"#ffffff"}
+      

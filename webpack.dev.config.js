@@ -20,6 +20,15 @@ module.exports = {
         libraryTarget: 'umd',
     },
     plugins: [
+        new ExtensionReloaderPlugin({
+            port: 9090, // Which port use to create the server
+            reloadPage: true, // Force the reload of the page also
+            entries: {
+                contentScript: 'content-script',
+                background: 'background',
+                extensionPage: 'popup',
+            },
+        }),
         new MiniCssExtractPlugin({ filename: 'style.css' }),
         new CopyWebpackPlugin([
             {

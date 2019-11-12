@@ -2,6 +2,12 @@
     "manifest_version": 2,
     "name": "watcha-rating-for-netflix",
     "version": "1.0.0",
+    "browser_action": {
+        "default_icon": "assets/profile_128.png"
+    },
+    "icons": {
+        "128": "assets/profile_128.png"
+    },
     "description": "왓차 별점 넷플릭스용 플러그인",
     "homepage_url": "https://github.com/pelogvc/watcha-rating-for-netflix",
     "permissions": [
@@ -17,7 +23,9 @@
     "content_scripts": [
         {
             "matches": ["*://*.netflix.com/*"],
-            "js": ["content-script.js"]
+            "js": ["content-script.js"],
+            "css": ["style.css"]
         }
-    ]
+    ],
+    "web_accessible_resources": ["style.css"]
 }
