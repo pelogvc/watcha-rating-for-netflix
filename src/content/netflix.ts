@@ -14,7 +14,7 @@ class Netflix {
     };
     private obTimer: any;
     private bgPort: Runtime.Port;
-    private searchLastData: string | null = "";
+    private searchLastData: string | undefined = "";
 
     constructor(options: MutationObserverInit = {}) {
         this.obOptions = {
@@ -63,19 +63,10 @@ class Netflix {
             ) {
                 return;
             }
-            const id =
-                target.id ||
-                (target.querySelector(".jawBoneContainer") &&
-                    target.querySelector(".jawBoneContainer")!.id);
-            const title =
-                target.querySelector(".logo") &&
-                target.querySelector(".logo")!.getAttribute("alt");
-            const year =
-                target.querySelector(".year") &&
-                target.querySelector(".year")!.textContent;
-            const duration =
-                target.querySelector(".duration") &&
-                target.querySelector(".duration")!.textContent;
+            const id = target.id || target.querySelector(".jawBoneContainer")?.id;
+            const title = target.querySelector(".logo")?.getAttribute("alt");
+            const year = target.querySelector(".year")?.textContent;
+            const duration = target.querySelector(".duration")?.textContent;
 
             if (!title || !year || !duration) return;
             if (this.searchLastData === id) return;
@@ -99,8 +90,6 @@ class Netflix {
         return true;
     }
 }
-
-//console.log('content/netflix')
 
 (() => {
     const netflix = new Netflix();
