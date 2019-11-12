@@ -53,7 +53,7 @@ class Watcha {
         isMovie: boolean;
         rating: number;
     }) {
-        console.log(message);
+        // console.log(message);
         const { id, title, year, duration, isMovie, rating } = message;
         const container = document.getElementById(id);
 
