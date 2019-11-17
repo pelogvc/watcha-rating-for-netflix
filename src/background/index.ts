@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { browser } from 'webextension-polyfill-ts';
 
+const savedDay = 7;
+
 const instance = axios.create({
     timeout: 1000,
     headers: {
@@ -28,7 +30,21 @@ const instance = axios.create({
                 // console.log(cValue);
 
                 if (cValue) {
-                    return port.postMessage(JSON.parse(cValue));
+                    const ret = JSON.parse(cValue);
+
+                    if (
+                        !(
+                            !ret?.date ||
+                            ret?.date <
+                                new Date(
+                                    new Date().setDate(
+                                        new Date().getDate() - savedDay
+                                    )
+                                )
+                        )
+                    ) {
+                        return port.postMessage(ret);
+                    }
                 }
 
                 const response = await instance.get(
@@ -56,7 +72,7 @@ const instance = axios.create({
                     }
                 );
 
-                if (!filteredResult) return;
+                if (!filteredResult[0]) return;
 
                 const ret = {
                     id,
@@ -65,6 +81,7 @@ const instance = axios.create({
                     duration,
                     isMovie,
                     rating: filteredResult[0]?.ratings_avg,
+                    date: new Date(),
                 };
 
                 await browser.storage.local.set({
