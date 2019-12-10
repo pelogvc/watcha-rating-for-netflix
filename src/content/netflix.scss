@@ -4,6 +4,13 @@
 
     svg {
         width: 1vw;
+    }
+
+    & > svg {
         color: #fedd63;
+    }
+
+    a svg {
+        margin-left: 5px;
     }
 }
